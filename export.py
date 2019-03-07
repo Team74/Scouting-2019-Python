@@ -26,9 +26,11 @@ def export():
     lc.execute("SELECT * FROM matchdata")
     for row in lc.fetchall():
         c.execute("""
-            SELECT * FROM matchdata WHERE teamNumber=%s AND roundNumber=%s"
-        """, row[0], row[1])
+            SELECT * FROM matchdata WHERE teamNumber=%s AND roundNumber=%s
+        """, [row[0], row[1]])
+        print("looking for teamNumber %s and roundNumber %s" % (row[0], row[1]))
         if c.fetchone():
+            print("Found a match")
             c.execute("""
                 UPDATE matchdata SET
                 scouterName=%s,
