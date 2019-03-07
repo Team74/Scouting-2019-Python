@@ -28,7 +28,7 @@ source.include_patterns = assets/*,images/*.png/
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 73.2.1
+version = 0.1
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -36,7 +36,7 @@ version = 73.2.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = sqlite3, kivy, mysql-connector-python, cython,
+requirements = sqlite3, kivy, mysql-connector-python, cython python3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
