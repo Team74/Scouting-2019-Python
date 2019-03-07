@@ -73,7 +73,7 @@ osx.kivy_version = 1.10.0
 #
 # Android specific
 #
-android.p4a_dir = /home/kivy/python-for-android
+android.p4a_dir = ./python-for-android
 
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 1
