@@ -101,6 +101,8 @@ class ClimbScreen(StackLayout):
         
         endButton = ColorButton("End", (.5, .2), Colors.LIGHT_RED)
         def endCallback(_):
+            self.switcher.robot.notes = self.notesInput.text
+            self.switcher.robot.saveToLocalDB()
             self.switcher.switch("login")
         endButton.bind(on_release=endCallback)
         rightSide.add_widget(endButton)

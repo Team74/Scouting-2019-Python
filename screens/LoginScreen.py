@@ -6,6 +6,7 @@ from kivy.uix.textinput import TextInput
 
 from robot.Robot import Robot
 from screens.ColorWidgets import ColorButton, ColorLabel, Colors
+from export import export
 
 class LoginScreen(StackLayout):
     def __init__(self, switcher):
@@ -47,8 +48,13 @@ class LoginScreen(StackLayout):
         displist.append(roundInc)
     
         # row 4
-        goButton = ColorButton("GO", (1, .25), Colors.GREEN)
+        exportButton = ColorButton("Export", (.25, .25), Colors.GREEN.muteNew())
+        def exportCallback(_):
+            exportButton.text = export()
+        exportButton.bind(on_release=exportCallback)
+        displist.append(exportButton)
         
+        goButton = ColorButton("GO", (.75, .25), Colors.GREEN)
         goButton.bind(on_release=self.switchToScoring)
         displist.append(goButton)
         

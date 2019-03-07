@@ -2,6 +2,7 @@
 # pylint: disable=import-error
 
 import time
+import sqlite3
 
 from robot.enums import EndingStates
 from robot.enums import Events
@@ -28,9 +29,9 @@ class Scoring():
     
     def dumpFields(self):
         """
-            Return a list of all of the integer fields in this class in the order they are defined above.
+            Return a list of all of the integer fields in this class.
             """
-        return [self.low, self.mid, self.high, self.dropped]
+        return [self.high, self.mid, self.low, self.dropped]
 
 class Robot():
     """
@@ -66,8 +67,9 @@ class Robot():
         """ General notes that the scouter takes on the robot. """
         self.notes = ""
 
-    def log(self, event):
-        t = getTime()
+    def log(self, event, t=None):
+        if not t:
+            t = getTime()
         print("logging `" + event + "` at time " + str(t))
         self.eventLog[t] = event
     
@@ -122,8 +124,7 @@ class Robot():
         """
             Logs a start event and logs an event based on what piece the robot started with.
             """
-        self.log(Events.START)
-        time.sleep(.001)
+        self.log(Events.START, getTime()-1) # we need to offset the time by one so that we don't have duplicate keys (overwritten start event)
         if startingPiece == Events.BALL:
             print("Robot is starting with Events.BALL")
             self.pickUpBall()
@@ -194,3 +195,95 @@ class Robot():
     def undefend(self):
         self.log(Events.UNDEFENSE)
         self.isDefending = False
+
+    def getCycles(self):
+        """
+            Return two lists of the time taken for the robot to score both game pieces.
+            """
+        times = list(self.eventLog.keys())
+        class Cycles():
+            def __init__(self):
+                self.high = []
+                self.mid = []
+                self.low = []
+                self.last = None
+        ballTimes = Cycles()
+        discTimes = Cycles()
+        
+        times.sort()
+        lastDefTime = None
+        for time in times:
+            event = self.eventLog[time]
+            
+            if   event == Events.BALL:
+                ballTimes.last = time
+            elif event == Events.DISC:
+                discTimes.last = time
+                
+            elif event == Events.SCORE_BALL_LOW:
+                ballTimes.low.append(time - ballTimes.last)
+                ballTimes.last = None
+            elif event == Events.SCORE_BALL_MID:
+                ballTimes.mid.append(time - ballTimes.last)
+                ballTimes.last = None
+            elif event == Events.SCORE_BALL_HIGH:
+                ballTimes.high.append(time - ballTimes.last)
+                ballTimes.last = None
+                
+            elif event == Events.SCORE_DISC_LOW:
+                discTimes.low.append(time - discTimes.last)
+                discTimes.last = None
+            elif event == Events.SCORE_DISC_MID:
+                discTimes.mid.append(time - discTimes.last)
+                discTimes.last = None
+            elif event == Events.SCORE_DISC_HIGH:
+                discTimes.high.append(time - discTimes.last)
+                discTimes.last = None
+            
+            elif event == Events.DROP_BALL:
+                ballTimes.last = None
+            elif event == Events.DROP_DISC:
+                discTimes.last = None
+            
+            elif event == Events.DEFENSE:
+                lastDefTime = time
+            elif event == Events.UNDEFENSE:
+                if ballTimes.last != None:
+                    ballTimes.last -= time - lastDefTime
+                if discTimes.last != None:
+                    discTimes.last -= time - lastDefTime
+                lastDefTime = None
+
+    def dumpData(self):
+        """
+            Returns all of the data stored within the robot that isn't 
+            the team number or round number in the order it appears on
+            the SQLite database.
+            """
+        return [self.scouter] + self.balls.dumpFields() + self.discs.dumpFields() + [self.endedOn, self.helpedEndOn, self.notes, self.rating]
+
+    def saveToLocalDB(self):
+        """
+            Upload the robot's data to the local SQLite database.
+            If data already exists for a team number + round number,
+            overwrite that data.
+            """
+        db = sqlite3.connect("main.db")
+        c = db.cursor()
+        c.execute("""
+            SELECT * FROM matchdata WHERE teamNumber=? AND roundNumber=?
+        """, (self.number, self.round))
+        if c.fetchone():
+            db.execute("""
+                UPDATE matchdata SET scouterName=?, 
+                ballsHigh=?, ballsMid=?, ballsLow=?, ballsDropped=?,
+                discsHigh=?, discsMid=?, discsLow=?, discsDropped=?,
+                endedOn=?, helpedEndOn=?, notes=?, scouterRating=?
+            """, self.dumpData())
+        else:
+            db.execute("""
+                INSERT INTO matchdata VALUES
+                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """, [self.number, self.round] + self.dumpData())
+        db.commit()
+        db.close()
