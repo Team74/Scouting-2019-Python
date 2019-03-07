@@ -36,7 +36,7 @@ version = 73.2.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = sqlite3, kivy, mysql-connector-python, cython
+requirements = sqlite3, kivy, mysql-connector-python, cython, android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -117,7 +117,7 @@ android.api = 19
 # android.skip_update = False
 
 # (str) Android entry point, default is ok for Kivy-based app
-android.entrypoint = org.kivy.android.PythonActivity
+#android.entrypoint = org.kivy.android.PythonActivity
 
 # (list) Pattern to whitelist for the whole project
 #android.whitelist =
