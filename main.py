@@ -1,5 +1,7 @@
 # pylint: disable=no-name-in-module
 # pylint: disable=import-error
+import sys
+print(sys.path)
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout

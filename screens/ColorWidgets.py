@@ -2,8 +2,6 @@ from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 
-from enum import Enum
-
 Builder.load_string("""
 <ColorLabel>:
     text_size: self.size
