@@ -30,7 +30,7 @@ def export():
         """, [row[0], row[1]])
         print("looking for teamNumber %s and roundNumber %s" % (row[0], row[1]))
         if c.fetchone():
-            print("Found a match")
+            print("Found a match, UPDATEing")
             c.execute("""
                 UPDATE matchdata SET
                 scouterName=%s,
@@ -40,6 +40,7 @@ def export():
                 WHERE teamNumber=%s AND roundNumber=%s
             """, row[2:] + row[:2])
         else:
+            print("Did not find a match, INSERTing")
             c.execute("""
                 INSERT INTO matchdata VALUES
                 (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)

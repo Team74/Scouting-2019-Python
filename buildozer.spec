@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = DepSpaseScouting
+title = Dep Spase Scouting
 
 # (str) Package name
-package.name = DepSpaseScouting
+package.name = DepSpaseScoutingPython
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
 
@@ -117,7 +117,7 @@ android.api = 19
 # android.skip_update = False
 
 # (str) Android entry point, default is ok for Kivy-based app
-#android.entrypoint = org.renpy.android.PythonActivity
+android.entrypoint = org.kivy.android.PythonActivity
 
 # (list) Pattern to whitelist for the whole project
 #android.whitelist =
