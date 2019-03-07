@@ -36,7 +36,7 @@ version = 73.2.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = sqlite3, kivy, mysql-connector-python, cython, android
+requirements = sqlite3, kivy, mysql-connector-python, cython,
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -73,6 +73,7 @@ osx.kivy_version = 1.10.0
 #
 # Android specific
 #
+android.p4a_dir = /home/kivy/python-for-android
 
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 1
