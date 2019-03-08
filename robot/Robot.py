@@ -308,6 +308,6 @@ class Robot():
 #                    (?,?,?,?,?,?,?,?)
 #            """, [self.number, self.round, bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high])
 #            
-#        db.commit()
-#        db.close()
+        db.commit()
+        db.close()
 #
