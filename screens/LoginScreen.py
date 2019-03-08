@@ -13,6 +13,7 @@ class LoginScreen(StackLayout):
         super(LoginScreen, self).__init__()
         self.switcher = switcher
         self.lastScouter = ""
+        self.lastRound = 0
     
     def display(self):
         displist = []
@@ -36,7 +37,7 @@ class LoginScreen(StackLayout):
         roundDisp = ColorLabel("Round", (.5, .25), Colors.GREEN)
         displist.append(roundDisp)
 
-        self.roundInput = TextInput(text="1", multiline=False, size_hint=(.25, .25))
+        self.roundInput = TextInput(text=str(self.lastRound + 1), multiline=False, size_hint=(.25, .25))
         displist.append(self.roundInput)
 
         roundDec = ColorButton("-", (.125, .25), Colors.GREEN)
@@ -78,6 +79,8 @@ class LoginScreen(StackLayout):
         teamNum = int("".join(char for char in self.teamInput.text if char in "1234567890"))
         roundNum = int("".join(char for char in self.roundInput.text if char in "1234567890"))
         scouterName = self.scouterInput.text
+        self.lastRound = roundNum
+        self.lastScouter = scouterName
         self.switcher.robot = Robot(teamNum, roundNum, scouterName)
         self.switcher.switch("scoring")
 

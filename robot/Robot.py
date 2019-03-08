@@ -310,4 +310,3 @@ class Robot():
 #            
         db.commit()
         db.close()
-#
