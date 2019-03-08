@@ -43,7 +43,7 @@ requirements = sqlite3, kivy, mysql-connector-python, python3, android
 # requirements.source.kivy = ../../kivy
 
 # (list) Garden requirements
-#garden_requirements =
+#garden_requirements = 
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
