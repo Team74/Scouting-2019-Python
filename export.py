@@ -6,8 +6,10 @@
 
 import mysql.connector
 import sqlite3
+import sys
 
 def export():
+    print(sys.version)
     try:
         db = mysql.connector.connect(
             connection_timeout=5,
@@ -16,7 +18,8 @@ def export():
             host="secure209.inmotionhosting.com",
             database="hostx75_scouting2019"
         )
-    except mysql.connector.errors.InterfaceError:
+    except mysql.connector.errors.InterfaceError as e:
+        print(e.msg)
         return "Failed to upload - timed out or IP was incorrect"
     c = db.cursor()
     
