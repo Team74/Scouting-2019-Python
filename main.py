@@ -7,12 +7,12 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.logger import Logger
 
-print(sys.version)
-print(sys.version)
-print(sys.version)
-print(sys.version)
-print(sys.version)
-print(sys.version)
+Logger.debug(sys.version)
+Logger.debug(sys.version)
+Logger.debug(sys.version)
+Logger.debug(sys.version)
+Logger.debug(sys.version)
+Logger.debug(sys.version)
 
 from screens.LoginScreen import LoginScreen
 from screens.ScoringScreen import ScoringScreen
