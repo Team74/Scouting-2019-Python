@@ -292,19 +292,22 @@ class Robot():
         c.execute("""
             SELECT * FROM cycledata WHERE teamNumber=? AND roundNumber=?
         """, (self.number, self.round))
-        if c.fetchone():
-            bc, dc = self.getCycles()
-            db.execute("""
-                UPDATE cycledata SET
-                ballLowAvg=?, ballMidAvg=?, ballHighAvg=?,
-                discLowAvg=?, discMidAvg=?, discHighAvg=?,
-                WHERE teamNumber=? AND roundNumber=?
-            """, [bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high, self.number, self.round])
-        else:
-            db.execute("""
-                INSERT INTO cycledata VALUES
-                    (?,?,?,?,?,?,?,?)
-            """, [self.number, self.round, bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high])
-            
-        db.commit()
-        db.close()
+        
+        
+#        bc, dc = self.getCycles()
+#        if c.fetchone():
+#            db.execute("""
+#               UPDATE cycledata SET
+#               ballLowAvg=?, ballMidAvg=?, ballHighAvg=?,
+#               discLowAvg=?, discMidAvg=?, discHighAvg=?,
+#               WHERE teamNumber=? AND roundNumber=?
+#            """, [bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high, self.number, self.round])
+#        else:
+#            db.execute("""
+#                INSERT INTO cycledata VALUES
+#                    (?,?,?,?,?,?,?,?)
+#            """, [self.number, self.round, bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high])
+#            
+#        db.commit()
+#        db.close()
+#
