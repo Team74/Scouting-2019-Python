@@ -281,7 +281,7 @@ class Robot():
                 ballsHigh=?, ballsMid=?, ballsLow=?, ballsDropped=?,
                 discsHigh=?, discsMid=?, discsLow=?, discsDropped=?,
                 endedOn=?, helpedEndOn=?, notes=?, scouterRating=?
-                WHHERE teamNumber=? AND roundNumber=?
+                WHERE teamNumber=? AND roundNumber=?
             """, self.dumpData() + [self.number, self.round])
         else:
             db.execute("""
