@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = sqlite3, kivy, mysql-connector-python, cython
+requirements = sqlite3, kivy, mysql-connector-python, python3, android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -88,7 +88,7 @@ fullscreen = 1
 android.permissions = INTERNET, CAMERA
 
 # (int) Android API to use
-android.api = 19
+android.api = 26
 
 # (int) Minimum API required
 #android.minapi = 19
