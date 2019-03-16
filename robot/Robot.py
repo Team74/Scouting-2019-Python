@@ -187,7 +187,7 @@ class Robot():
         self.discs.has = True
 
     def defend(self):
-        if self.getStart() == None: return
+        if self.getStart() == None: return # can't defend if we haven't started
             
         self.log(Events.DEFENSE)
         self.isDefending = True
@@ -207,6 +207,12 @@ class Robot():
                 self.mid = []
                 self.low = []
                 self.last = None
+            
+            def averages(self):
+                self.high = round(sum(self.high) / len(self.high), 4) if len(self.high) > 0 else 0
+                self.mid = round(sum(self.mid) / len(self.mid), 4) if len(self.mid) > 0 else 0
+                self.low = round(sum(self.low) / len(self.low), 4) if len(self.low) > 0 else 0
+
         ballTimes = Cycles()
         discTimes = Cycles()
         
@@ -214,6 +220,7 @@ class Robot():
         lastDefTime = None
         for time in times:
             event = self.eventLog[time]
+            print("\n[getCycles] event: " + event + "\n[getCycles] time:  " + str(time))
             
             if   event == Events.BALL:
                 ballTimes.last = time
@@ -253,7 +260,8 @@ class Robot():
                 if discTimes.last != None:
                     discTimes.last -= time - lastDefTime
                 lastDefTime = None
-        
+        ballTimes.averages()
+        discTimes.averages()
         return ballTimes, discTimes
 
     def dumpData(self):
@@ -294,19 +302,19 @@ class Robot():
         """, (self.number, self.round))
         
         
-#        bc, dc = self.getCycles()
-#        if c.fetchone():
-#            db.execute("""
-#               UPDATE cycledata SET
-#               ballLowAvg=?, ballMidAvg=?, ballHighAvg=?,
-#               discLowAvg=?, discMidAvg=?, discHighAvg=?,
-#               WHERE teamNumber=? AND roundNumber=?
-#            """, [bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high, self.number, self.round])
-#        else:
-#            db.execute("""
-#                INSERT INTO cycledata VALUES
-#                    (?,?,?,?,?,?,?,?)
-#            """, [self.number, self.round, bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high])
-#            
+        bc, dc = self.getCycles()
+        if c.fetchone():
+            db.execute("""
+               UPDATE cycledata SET
+               ballLowAvg=?, ballMidAvg=?, ballHighAvg=?,
+               discLowAvg=?, discMidAvg=?, discHighAvg=?
+               WHERE teamNumber=? AND roundNumber=?
+            """, [bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high, self.number, self.round])
+        else:
+            db.execute("""
+                INSERT INTO cycledata VALUES
+                    (?,?,?,?,?,?,?,?)
+            """, [self.number, self.round, bc.low, bc.mid, bc.high, dc.low, dc.mid, dc.high])
+            
         db.commit()
         db.close()

@@ -48,6 +48,29 @@ def export():
                 INSERT INTO matchdata VALUES
                 (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             """, row)
+    
+    lc.execute("SELECT * FROM cycledata")
+    for row in lc.fetchall():
+        c.execute("""
+            SELECT * FROM cycledata WHERE teamNumber=%s AND roundNumber=%s
+        """, row[0], row[1])
+        print("looking for teamNumber %s and roundNumber %s" % (row[0], row[1]))
+
+        if c.fetchone():
+            print("Found a match, UPDATEing")
+            c.execute("""
+                UPDATE cycledata SET
+                ballLowAvg=%s, ballMidAvg=%s, ballHighAvg=%s,
+                discLowAvg=%s, discMidAvg=%s, discHighAvg=%s
+                WHERE teamNumber=%s AND roundNumber=%s
+            """, row[2:] + row[:2])
+        else:
+            print("Did not find a match, INSERTing")
+            c.execute("""
+                INSERT INTO cycledata SET
+                (%s,%s,%s,%s,%s,%s,%s,%s)
+            """)
+
     db.commit()
     
     ldb.close()

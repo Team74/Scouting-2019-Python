@@ -12,9 +12,9 @@ SCORE_BALL_LOW = "scored ball low"
 DROP_BALL = "dropped ball"
 
 DISC = "picked up disc"
-SCORE_DISC_HIGH = "scored ball high"
-SCORE_DISC_MID = "scored ball mid"
-SCORE_DISC_LOW = "scored ball low"
+SCORE_DISC_HIGH = "scored disc high"
+SCORE_DISC_MID = "scored disc mid"
+SCORE_DISC_LOW = "scored disc low"
 DROP_DISC = "dropped disc"
 
 DEFENSE = "began defending"
