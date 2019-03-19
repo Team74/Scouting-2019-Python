@@ -66,6 +66,7 @@ class ScoringScreen(StackLayout):
         
         climbButton = ColorButton("Climb", (.5, .2), Colors.LIGHT_RED)
         def climbCallback(_):
+            if self.switcher.robot.isDefending: return
             self.switcher.switch("climb")
         climbButton.bind(on_press=climbCallback)
         self.leftSide.add_widget(climbButton)
