@@ -23,14 +23,14 @@ class LoginScreen(StackLayout):
         scouterDisp = ColorLabel("Scouter", (.5, .25), Colors.GREEN)
         displist.append(scouterDisp)
         
-        self.scouterInput = TextInput(text=str(self.lastScouter), multiline=False, size_hint=(.5, .25))
+        self.scouterInput = TextInput(text=str(self.lastScouter), multiline=False, size_hint=(.5, .25), input_type='number')
         displist.append(self.scouterInput)
 
         # row 2
         teamDisp = ColorLabel("Team", (.5, .25), Colors.GREEN)
         displist.append(teamDisp)
 
-        self.teamInput = TextInput(text="", multiline=False, size_hint=(.5, .25))
+        self.teamInput = TextInput(text="", multiline=False, size_hint=(.5, .25), input_type='number')
         displist.append(self.teamInput)
 
         # row 3
@@ -66,22 +66,24 @@ class LoginScreen(StackLayout):
     
     def switchToScoring(self, _):
         passedChecks = True
-        if self.teamInput.text == "":
-            self.teamInput.hint_text = "Enter a team number here."
+        teamNum = "".join(char for char in self.teamInput.text if char in "1234567890")
+        roundNum = "".join(char for char in self.roundInput.text if char in "1234567890")
+        if teamNum == "" or len(teamNum) > 4:
+            self.teamInput.hint_text = "Enter a valid team number here."
+            self.teamInput.text = ""
             passedChecks = False
-        if self.roundInput.text == "":
-            self.roundInput.hint_text = "Enter a round number here."
+        if roundNum == "" or len(roundNum) > 3:
+            self.roundInput.hint_text = "Enter a valid round number here."
+            self.roundInput.text = ""
             passedChecks = False
-        if self.scouterInput.text == "":
-            self.scouterInput.hint_text = "Enter your name here."
+        if self.scouterInput.text == "" or len(self.scouterInput.text) > 40:
+            self.scouterInput.hint_text = "Enter your name here. (40 chars max)"
             passedChecks = False
         if not passedChecks: return
-        teamNum = int("".join(char for char in self.teamInput.text if char in "1234567890"))
-        roundNum = int("".join(char for char in self.roundInput.text if char in "1234567890"))
         scouterName = self.scouterInput.text
-        self.lastRound = roundNum
+        self.lastRound = int(roundNum)
         self.lastScouter = scouterName
-        self.switcher.robot = Robot(teamNum, roundNum, scouterName)
+        self.switcher.robot = Robot(int(teamNum), int(roundNum), scouterName)
         self.switcher.switch("scoring")
 
     def changeRound(self, change):

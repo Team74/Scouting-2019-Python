@@ -21,6 +21,9 @@ def export():
     except mysql.connector.errors.InterfaceError as e:
         print(e.msg)
         return "Failed to upload - timed out or IP was incorrect"
+    except mysql.connector.errors.OperationalError as e:
+        print(str(e))
+        return "youre trying to export from haworth you dumbass"
     c = db.cursor()
     
     ldb = sqlite3.connect("main.db")

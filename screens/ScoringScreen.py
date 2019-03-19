@@ -17,9 +17,9 @@ class ScoringScreen(StackLayout):
         displist = []
         
         # for alternating layout
-        leftSide = StackLayout(size_hint=(.5, 1))
+        self.leftSide = StackLayout(size_hint=(.5, 1))
         
-        rotatingLayout = StackLayout(size_hint=(1, .8))
+        self.rotatingLayout = StackLayout(size_hint=(1, .8))
         
         self.startingLayout = StartingLayout(self)
         self.holdingLayout = HoldingLayout(self)
@@ -29,11 +29,30 @@ class ScoringScreen(StackLayout):
         self.holdingLayout.setNext(self.pickupLayout)
         self.pickupLayout.setNext(self.holdingLayout)
         
-        rotatingLayout.add_widget(self.startingLayout)
-        rotatingLayout.add_widget(self.holdingLayout)
-        rotatingLayout.add_widget(self.pickupLayout)
-        leftSide.add_widget(rotatingLayout)
-        
+        self.rotatingLayout.add_widget(self.startingLayout)
+        self.rotatingLayout.add_widget(self.holdingLayout)
+        self.rotatingLayout.add_widget(self.pickupLayout)
+
+        self.startingLayout.hide()
+        self.holdingLayout.hide()
+        self.pickupLayout.hide()
+
+        robot = self.switcher.robot
+        last = robot.getLast(robot.eventLog)
+        if last == None:
+            last = Events.START
+        else:
+            last = robot.eventLog[last]
+        print("last = " + str(last))
+        if last == Events.START:
+            self.startingLayout.show()
+        elif last == Events.BALL or last == Events.DISC:
+            self.holdingLayout.show()
+        elif "scored" in last or "dropped" in last:
+            self.pickupLayout.show()
+
+        self.leftSide.add_widget(self.rotatingLayout)
+
         self.defenseButton = ColorButton("Defend (Robot crossed over middle line)", (.5, .2), Colors.LIGHT_RED)
         def defenseCallback(_):
             if not self.switcher.robot.isDefending:
@@ -42,16 +61,16 @@ class ScoringScreen(StackLayout):
                 self.switcher.robot.undefend()
             self.updateUndoLayout()
             self.updateDefense()
-        self.defenseButton.bind(on_release=defenseCallback)
-        leftSide.add_widget(self.defenseButton)
+        self.defenseButton.bind(on_press=defenseCallback)
+        self.leftSide.add_widget(self.defenseButton)
         
         climbButton = ColorButton("Climb", (.5, .2), Colors.LIGHT_RED)
         def climbCallback(_):
             self.switcher.switch("climb")
-        climbButton.bind(on_release=climbCallback)
-        leftSide.add_widget(climbButton)
+        climbButton.bind(on_press=climbCallback)
+        self.leftSide.add_widget(climbButton)
         
-        displist.append(leftSide)
+        displist.append(self.leftSide)
         
         rightSide = StackLayout(size_hint=(.5, 1))
         
@@ -70,7 +89,7 @@ class ScoringScreen(StackLayout):
                 self.pickupLayout.displayNext()
             else:
                 self.updateDefense()
-        undoButton.bind(on_release=undoCallback)
+        undoButton.bind(on_press=undoCallback)
         rightSide.add_widget(undoButton)
         
         self.undoLayout = StackLayout(size_hint=(1, .7))
@@ -136,10 +155,11 @@ class RotatingLayout(StackLayout):
         self.next.show()
     
     def show(self):
-        self.size_hint = (1, 1)
+        self.size_hint = (1, 1.0275) # y=1.0275 to fix visual glitch w kivy
         
     def hide(self):
-        self.size_hint = (0, 0)
+        self.size_hint = (1, 0)
+        self.pos = (10, 10)
 
 class StartingLayout(RotatingLayout):
     """
@@ -148,23 +168,28 @@ class StartingLayout(RotatingLayout):
     def __init__(self, switcher):
         super(StartingLayout, self).__init__()
         self.parentLayout = switcher
+        self.robot = switcher.switcher.robot
         self.build()
         
     def build(self):
         startBallButton = ColorButton("Started with ball", (1, .5), Colors.ORANGE)
         def ballCallback(_):
-            self.parentLayout.switcher.robot.start(Events.BALL)
+            if self.robot.isDefending or self.robot.balls.has or self.robot.discs.has:
+                return
+            self.robot.start(Events.BALL)
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        startBallButton.bind(on_release=ballCallback)
+        startBallButton.bind(on_press=ballCallback)
         self.add_widget(startBallButton)
         
         startDiscButton = ColorButton("Started with disc", (1, .5), Colors.YELLOW)
         def discCallback(_):
-            self.parentLayout.switcher.robot.start(Events.DISC)
+            if self.robot.isDefending or self.robot.balls.has or self.robot.discs.has:
+                return
+            self.robot.start(Events.DISC)
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        startDiscButton.bind(on_release=discCallback)
+        startDiscButton.bind(on_press=discCallback)
         self.add_widget(startDiscButton)
 
 class HoldingLayout(RotatingLayout):
@@ -174,43 +199,52 @@ class HoldingLayout(RotatingLayout):
     def __init__(self, switcher):
         super(HoldingLayout, self).__init__()
         self.parentLayout = switcher
+        self.robot = switcher.switcher.robot
         self.build()
     
     def build(self):
         scoredHighButton = ColorButton("Scored high", (1, .25), Colors.LIGHT_BLUE)
         def highCallback(_):
-            self.parentLayout.switcher.robot.scoreCurrentHigh()
+            if self.robot.isDefending:
+                return
+            self.robot.scoreCurrentHigh()
             self.parentLayout.updateScoreDisplay()
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        scoredHighButton.bind(on_release=highCallback)
+        scoredHighButton.bind(on_press=highCallback)
         self.add_widget(scoredHighButton)
         
         scoredMidButton = ColorButton("Scored mid", (1, .25), Colors.FAIR_BLUE)
         def midCallback(_):
-            self.parentLayout.switcher.robot.scoreCurrentMid()
+            if self.robot.isDefending:
+                return
+            self.robot.scoreCurrentMid()
             self.parentLayout.updateScoreDisplay()
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        scoredMidButton.bind(on_release=midCallback)
+        scoredMidButton.bind(on_press=midCallback)
         self.add_widget(scoredMidButton)
         
         scoredLowButton = ColorButton("Scored low", (1, .25), Colors.BLUE)
         def lowCallback(_):
-            self.parentLayout.switcher.robot.scoreCurrentLow()
+            if self.robot.isDefending:
+                return
+            self.robot.scoreCurrentLow()
             self.parentLayout.updateScoreDisplay()
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        scoredLowButton.bind(on_release=lowCallback)
+        scoredLowButton.bind(on_press=lowCallback)
         self.add_widget(scoredLowButton)
         
         droppedButton = ColorButton("Dropped", (1, .25), Colors.DEEP_BLUE)
         def droppedCallback(_):
-            self.parentLayout.switcher.robot.dropCurrent()
+            if self.robot.isDefending:
+                return
+            self.robot.dropCurrent()
             self.parentLayout.updateScoreDisplay()
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        droppedButton.bind(on_release=droppedCallback)
+        droppedButton.bind(on_press=droppedCallback)
         self.add_widget(droppedButton)
 
 class PickupLayout(RotatingLayout):
@@ -220,21 +254,26 @@ class PickupLayout(RotatingLayout):
     def __init__(self, switcher):
         super(PickupLayout, self).__init__()
         self.parentLayout = switcher
+        self.robot = switcher.switcher.robot
         self.build()
         
     def build(self):
         ballButton = ColorButton("Picked up ball", (1, .5), Colors.ORANGE)
         def ballCallback(_):
-            self.parentLayout.switcher.robot.pickUpBall()
+            if self.robot.isDefending or self.robot.balls.has or self.robot.discs.has:
+                return
+            self.robot.pickUpBall()
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        ballButton.bind(on_release=ballCallback)
+        ballButton.bind(on_press=ballCallback)
         self.add_widget(ballButton)
         
         discButton = ColorButton("Picked up disc", (1, .5), Colors.YELLOW)
         def discCallback(_):
-            self.parentLayout.switcher.robot.pickUpDisc()
+            if self.robot.isDefending or self.robot.balls.has or self.robot.discs.has:
+                return
+            self.robot.pickUpDisc()
             self.parentLayout.updateUndoLayout()
             self.displayNext()
-        discButton.bind(on_release=discCallback)
+        discButton.bind(on_press=discCallback)
         self.add_widget(discButton)

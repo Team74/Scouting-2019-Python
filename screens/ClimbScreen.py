@@ -47,10 +47,10 @@ class ClimbScreen(StackLayout):
         # Helped layout
         helpedLayout = StackLayout(size_hint=(1, .5))
         
-        helpedLabel = ColorLabel("How many points this robot helped another team score", (1, .2), Colors.ORANGE)
+        helpedLabel = ColorLabel("Did the robot help another robot climb?", (1, .2), Colors.ORANGE)
         self.helped0 = ColorButton("Did not help", (1/3, .8), Colors.BLUE)
-        self.helped6 = ColorButton("6", (1/3, .8), Colors.FAIR_BLUE)
-        self.helped12 = ColorButton("12", (1/3, .8), Colors.LIGHT_BLUE)
+        self.helped6 = ColorButton("Helped climb for 6", (1/3, .8), Colors.FAIR_BLUE)
+        self.helped12 = ColorButton("Helped climb for 12", (1/3, .8), Colors.LIGHT_BLUE)
         
         def helpedCallback(state):
             self.switcher.robot.helpedEndOn = state
@@ -67,7 +67,7 @@ class ClimbScreen(StackLayout):
         self.updateHelpedLayout()
         leftSide.add_widget(helpedLayout)
         
-        self.notesInput = TextInput(text=self.switcher.robot.notes, size_hint=(1, .5), multiline=False)
+        self.notesInput = TextInput(text=self.switcher.robot.notes, size_hint=(1, .5), multiline=True)
         rightSide.add_widget(self.notesInput)
         
         # Rating layout
@@ -95,6 +95,7 @@ class ClimbScreen(StackLayout):
         
         backButton = ColorButton("Back", (.5, .2), Colors.LIGHT_RED)
         def backCallback(_):
+            self.switcher.robot.notes = self.notesInput.text
             self.switcher.switch("scoring")
         backButton.bind(on_release=backCallback)
         rightSide.add_widget(backButton)

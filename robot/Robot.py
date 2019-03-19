@@ -70,8 +70,20 @@ class Robot():
     def log(self, event, t=None):
         if not t:
             t = getTime()
+        if event != Events.UNDEFENSE and self.isDefending:
+            print("would have logged " + event + ", but self.isDefending was True")
+            return
         print("logging `" + event + "` at time " + str(t))
         self.eventLog[t] = event
+    
+    def getLast(self, eventLog):
+        if len(eventLog.keys()) == 0: return None
+        last = max(eventLog.keys())
+        if "defending" in eventLog[last]:
+            copyWithoutDef = eventLog.copy()
+            copyWithoutDef.pop(last)
+            last = self.getLast(copyWithoutDef)
+        return last
     
     def unlog(self):
         """
