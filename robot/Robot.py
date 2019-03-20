@@ -140,7 +140,7 @@ class Robot():
         if startingPiece == Events.BALL:
             print("Robot is starting with Events.BALL")
             self.pickUpBall()
-        if startingPiece == Events.DISC:
+        elif startingPiece == Events.DISC:
             print("Robot is starting with Events.DISC")
             self.pickUpDisc()
     
