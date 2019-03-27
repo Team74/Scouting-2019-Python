@@ -1,4 +1,5 @@
 import qrcode
+from qrcode.image.pure import PymagingImage
 import sqlite3
 
 from kivy.uix.image import Image
@@ -15,7 +16,7 @@ class QRScreen(StackLayout):
         url = self.getURL()
 
         qrImage = qrcode.make(url)
-        qrImage.save("qr")
+        qrImage.save("qr", image_factory=PymagingImage)
         self.clear_widgets()
         self.add_widget(Image(source="qr", size_hint=(1, .9)))
 
