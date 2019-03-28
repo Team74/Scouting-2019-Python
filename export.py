@@ -23,7 +23,7 @@ def export():
         return "Failed to upload - timed out or IP was incorrect"
     except mysql.connector.errors.OperationalError as e:
         print(str(e))
-        return "youre trying to export from haworth you dumbass"
+        return "Failed to upload - youre trying to export from haworth you dumbass"
     c = db.cursor()
     
     ldb = sqlite3.connect("main.db")
@@ -70,9 +70,9 @@ def export():
         else:
             print("Did not find a match, INSERTing")
             c.execute("""
-                INSERT INTO cycledata SET
+                INSERT INTO cycledata VALUES
                 (%s,%s,%s,%s,%s,%s,%s,%s)
-            """)
+            """, row)
 
     db.commit()
     
