@@ -731,8 +731,8 @@ build_time_vars = {'ABIFLAGS': 'm',
                      '/home/chaos/Scouting-2019-Python/.buildozer/android/platform/build/build/other_builds/python3-libffi-openssl-sqlite3/armeabi-v7a__ndk_target_21/python3/android-build/`cat '
                      'pybuilddir.txt`:)/home/chaos/Scouting-2019-Python/.buildozer/android/platform/build/build/other_builds/python3-libffi-openssl-sqlite3/armeabi-v7a__ndk_target_21/python3/Lib '
                      '_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_m_linux_ '
-                     'python',
- 'PYTHON_FOR_REGEN': 'python3',
+                     'python3.7',
+ 'PYTHON_FOR_REGEN': 'python3.7',
  'PYTHON_HEADERS': '\\',
  'PYTHON_OBJS': '\\',
  'PY_CFLAGS': '-mfloat-abi=softfp -mfpu=vfpv3-d16 -Wno-unused-result '
@@ -925,7 +925,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'TM_IN_SYS_TIME': 0,
  'UNICODE_DEPS': '\\',
  'UNIVERSALSDK': '',
- 'UPDATE_FILE': 'python3 '
+ 'UPDATE_FILE': 'python3.7 '
                 '/home/chaos/Scouting-2019-Python/.buildozer/android/platform/build/build/other_builds/python3-libffi-openssl-sqlite3/armeabi-v7a__ndk_target_21/python3/Tools/scripts/update_file.py',
  'USE_COMPUTED_GOTOS': 0,
  'VERSION': '3.7',

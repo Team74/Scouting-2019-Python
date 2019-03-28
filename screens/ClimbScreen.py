@@ -74,9 +74,11 @@ class ClimbScreen(StackLayout):
         ratingLayout = StackLayout(size_hint=(1, .3))
         
         ratingLabel = ColorLabel("Robot rating (1 is worst, 3 is best)", (1, .2), Colors.DEEP_BLUE)
-        self.rating1 = ColorButton("1", (1/3, .8), Colors.BLUE)
-        self.rating2 = ColorButton("2", (1/3, .8), Colors.FAIR_BLUE)
-        self.rating3 = ColorButton("3", (1/3, .8), Colors.LIGHT_BLUE)
+        self.rating1 = ColorButton("1", (.2, .8), Colors.DARK_BLUE)
+        self.rating2 = ColorButton("2", (.2, .8), Colors.DEEP_BLUE)
+        self.rating3 = ColorButton("3", (.2, .8), Colors.BLUE)
+        self.rating4 = ColorButton("4", (.2, .8), Colors.FAIR_BLUE)
+        self.rating5 = ColorButton("5", (.2, .8), Colors.LIGHT_BLUE)
         
         def ratingCallback(rating):
             self.switcher.robot.rating = rating
@@ -84,11 +86,15 @@ class ClimbScreen(StackLayout):
         self.rating1.bind(on_release=lambda _: ratingCallback(1))
         self.rating2.bind(on_release=lambda _: ratingCallback(2))
         self.rating3.bind(on_release=lambda _: ratingCallback(3))
+        self.rating4.bind(on_release=lambda _: ratingCallback(4))
+        self.rating5.bind(on_release=lambda _: ratingCallback(5))
         
         ratingLayout.add_widget(ratingLabel)
         ratingLayout.add_widget(self.rating1)
         ratingLayout.add_widget(self.rating2)
         ratingLayout.add_widget(self.rating3)
+        ratingLayout.add_widget(self.rating4)
+        ratingLayout.add_widget(self.rating5)
         
         self.updateRatingLayout()
         rightSide.add_widget(ratingLayout)
@@ -141,9 +147,11 @@ class ClimbScreen(StackLayout):
             self.helped12.background_color = Colors.GREEN.asTupleWithAlpha()
     
     def updateRatingLayout(self):
-        self.rating1.background_color = Colors.BLUE.asTupleWithAlpha()
-        self.rating2.background_color = Colors.FAIR_BLUE.asTupleWithAlpha()
-        self.rating3.background_color = Colors.LIGHT_BLUE.asTupleWithAlpha()
+        self.rating1.background_color = Colors.DEEP_BLUE.asTupleWithAlpha()
+        self.rating2.background_color = Colors.BLUE.asTupleWithAlpha()
+        self.rating3.background_color = Colors.FAIR_BLUE.asTupleWithAlpha()
+        self.rating4.background_color = Colors.LIGHT_BLUE.asTupleWithAlpha()
+        self.rating5.background_color = Colors.BRIGHT_BLUE.asTupleWithAlpha()
         
         if self.switcher.robot.rating == 1:
             self.rating1.background_color = Colors.GREEN.asTupleWithAlpha()
@@ -151,3 +159,7 @@ class ClimbScreen(StackLayout):
             self.rating2.background_color = Colors.GREEN.asTupleWithAlpha()
         if self.switcher.robot.rating == 3:
             self.rating3.background_color = Colors.GREEN.asTupleWithAlpha()
+        if self.switcher.robot.rating == 4:
+            self.rating4.background_color = Colors.GREEN.asTupleWithAlpha()
+        if self.switcher.robot.rating == 5:
+            self.rating5.background_color = Colors.GREEN.asTupleWithAlpha()

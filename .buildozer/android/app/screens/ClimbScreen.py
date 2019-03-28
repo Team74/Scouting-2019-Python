@@ -104,8 +104,8 @@ class ClimbScreen(StackLayout):
         def endCallback(_):
             self.switcher.robot.notes = self.notesInput.text
             self.switcher.robot.saveToLocalDB()
-            #self.switcher.switch("qr")
-            self.switcher.switch("login")
+            self.switcher.switch("qr")
+            #self.switcher.switch("login")
         endButton.bind(on_release=endCallback)
         rightSide.add_widget(endButton)
         

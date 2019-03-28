@@ -35,8 +35,8 @@ class MainDisplay(BoxLayout):
         self.screens = {
             "login": LoginScreen(self),
             "scoring": ScoringScreen(self),
-            "climb": ClimbScreen(self)
-            #"qr": QRScreen(self)
+            "climb": ClimbScreen(self),
+            "qr": QRScreen(self)
         }
         self.robot = Robot(0, 0, "")
         self.currentScreen = self.screens["login"]

@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = sqlite3, kivy, mysql-connector-python, python3, android, qrcode, git+git://github.com/ojii/pymaging.git#egg=pymaging, git+git://github.com/ojii/pymaging-png.git#egg=pymaging-png,
+requirements = sqlite3, kivy, mysql-connector-python, python3, android, pypng, pyqrcode
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

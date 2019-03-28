@@ -770,8 +770,8 @@ S["CONFIG_ARGS"]=" '--host=arm-linux-androideabi' '--build=x86_64-pc-linux-gnu' 
 S["SOVERSION"]="1.0"
 S["VERSION"]="3.7"
 S["PYTHON_FOR_BUILD"]="_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir"\
-")/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) python"
-S["PYTHON_FOR_REGEN"]="python3"
+")/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) python3.7"
+S["PYTHON_FOR_REGEN"]="python3.7"
 S["host_os"]="linux-androideabi"
 S["host_vendor"]="unknown"
 S["host_cpu"]="arm"
