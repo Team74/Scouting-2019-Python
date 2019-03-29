@@ -65,6 +65,10 @@ class LoginScreen(StackLayout):
     
     
     def switchToScoring(self, _):
+        """
+            Callback function for when the goButton is pressed.
+            The `_` arg is a throwaway arg for the button (it's passed in when on_release triggers).
+            """
         passedChecks = True
         teamNum = "".join(char for char in self.teamInput.text if char in "1234567890")
         roundNum = "".join(char for char in self.roundInput.text if char in "1234567890")

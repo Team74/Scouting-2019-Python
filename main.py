@@ -7,16 +7,10 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.logger import Logger
 
-Logger.debug(sys.version)
-Logger.debug(sys.version)
-Logger.debug(sys.version)
-Logger.debug(sys.version)
-Logger.debug(sys.version)
-Logger.debug(sys.version)
-
 from screens.LoginScreen import LoginScreen
 from screens.ScoringScreen import ScoringScreen
 from screens.ClimbScreen import ClimbScreen
+from screens.QRScreen import QRScreen
 from robot.Robot import Robot
 
 class ScoutingApp(App):
@@ -34,7 +28,8 @@ class MainDisplay(BoxLayout):
         self.screens = {
             "login": LoginScreen(self),
             "scoring": ScoringScreen(self),
-            "climb": ClimbScreen(self)
+            "climb": ClimbScreen(self),
+            "qr": QRScreen(self)
         }
         self.robot = Robot(0, 0, "")
         self.currentScreen = self.screens["login"]
