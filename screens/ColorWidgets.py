@@ -74,18 +74,20 @@ class Colors():
     """
         Enum for different default colors.
         """
-    GREEN = Color(0, 171, 40)
-    ORANGE = Color(225, 120, 45)
-    YELLOW = Color(225, 225, 72)
-    BRIGHT_BLUE = Color(75, 120, 250)
-    LIGHT_BLUE = Color(60, 100, 225)
-    FAIR_BLUE = Color(45, 80, 200)
-    BLUE = Color(30, 60, 175)
-    DEEP_BLUE = Color(15, 40, 150)
-    DARK_BLUE = Color(0, 20, 125)
-    LIGHT_RED = Color(235, 72, 72)
+    GREEN =         Color(0, 171, 40)
+    ORANGE =        Color(225, 120, 45)
+    YELLOW =        Color(225, 225, 72)
+    BRIGHT_BLUE =   Color(75, 120, 250)
+    LIGHT_BLUE =    Color(60, 100, 225)
+    FAIR_BLUE =     Color(45, 80, 200)
+    BLUE =          Color(30, 60, 175)
+    DEEP_BLUE =     Color(15, 40, 150)
+    DARK_BLUE =     Color(0, 20, 125)
+    RED =           Color(185, 32, 32)
+    FAIR_RED =      Color(210, 52, 52)
+    LIGHT_RED =     Color(235, 72, 72)
     LIGHT_MAGENTA = Color(208, 107, 147)
-    WHITE = Color(225, 225, 225)
+    WHITE =         Color(225, 225, 225)
 
 class ColorLabel(Label):
     def __init__(self, text, sizehint, color, **kwargs):

@@ -42,9 +42,11 @@ class QRScreen(StackLayout):
             ballsHigh = "%02d" % int(data[3]) if int(data[3]) <= 99 else 99
             ballsMid = "%02d" % int(data[4]) if int(data[4]) <= 99 else 99
             ballsLow = "%02d" % int(data[5]) if int(data[5]) <= 99 else 99
+            ballsDropped = "%02d" % int(data[6]) if int(data[6]) <= 99 else 99
             discsHigh = "%02d" % int(data[7]) if int(data[7]) <= 99 else 99
             discsMid = "%02d" % int(data[8]) if int(data[8]) <= 99 else 99
             discsLow = "%02d" % int(data[9]) if int(data[9]) <= 99 else 99
+            discsDropped = "%02d" % int(data[10]) if int(data[10]) <= 99 else 99
             scouterRating = str(data[14])
             urlData.append(
                 teamNum +
@@ -52,14 +54,17 @@ class QRScreen(StackLayout):
                 ballsHigh +
                 ballsMid +
                 ballsLow +
+                ballsDropped +
                 discsHigh +
                 discsMid +
                 discsLow +
+                discsDropped +
                 scouterRating
-            ) # TTTT RRR BH BM BL DH DM DL EE HH SS
+            ) # TTTT RRR BH BM BL BD DH DM DL DD S
             
 
         fullURL = "https://boost--the-basset-hound.repl.co/?pp" + "pp".join(urlData)
+        print(fullURL)
 
         db.close()
 
