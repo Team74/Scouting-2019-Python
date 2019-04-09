@@ -21,7 +21,7 @@ class QRScreen(StackLayout):
         self.clear_widgets()
         self.add_widget(Image(source="qr", size_hint=(1, .9)))
 
-        exitButton = ColorButton("Exit", (1, .1), Colors.GREEN)
+        exitButton = ColorButton("To team select", (1, .1), Colors.GREEN)
         exitButton.bind(on_release=lambda _: self.switcher.switch("login"))
         self.add_widget(exitButton)
 
